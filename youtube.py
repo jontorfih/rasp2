@@ -11,13 +11,14 @@ GPIO.setup(13, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(16, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(23, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(24, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 
     
 LARGE_FONT = ("Verdana", 12)
 
 gg=1
-
+cc= "ggg"
 class upphaf(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
@@ -46,6 +47,8 @@ class upphaf(tk.Tk):
         #print('eftir flettara3')
     def show_frame(self, cont):
         print(cont)
+        global cc
+        cc= cont
         #print(cont)
         frame = self.frames[cont]
         #print(frame)
@@ -75,6 +78,7 @@ class StartPage(tk.Frame):
         GPIO.add_event_detect(16, GPIO.FALLING, callback=my_callback2, bouncetime=300)
         GPIO.add_event_detect(23, GPIO.FALLING, callback=my_callback3, bouncetime=300)
         GPIO.add_event_detect(18, GPIO.FALLING, callback=my_callback4, bouncetime=300)
+        GPIO.add_event_detect(24, GPIO.FALLING, callback=coin_callback, bouncetime=300)
 
     
        
@@ -103,38 +107,15 @@ class PageOne(tk.Frame):
                             command=lambda: controller.show_frame(PageTwo))
         button2.pack()
         
-        rvk2 = Image.open( '/home/pi/Videos/youtube/Germany.gif' )
-        rvkrender4 = ImageTk.PhotoImage( rvk2 )
-        img4 = tk.Label( self, image=rvkrender4 )
-        img4.image = rvkrender4
-        img4.place(x=400, y=10)
+        tungumal = Image.open( '/home/pi/Videos/youtube/tungumal.jpg')
+        tungumal = tungumal.resize((1185,560), Image.ANTIALIAS)
+        tungrender= ImageTk.PhotoImage( tungumal )
+        imgtung = tk.Label( self, image=tungrender )
+        imgtung.image = tungrender
+        imgtung.place(x=0, y=0)
 
-        
-        '''
-        china = Image.open( 'home/pi/Videos/youtube/china.gif' )
-        chinar = ImageTk.PhotoImage( china )
-        img = tk.Label( self, image=chinar )
-        img.image = chinar
-        img.place(x=1100, y=600)
+      
 
-        uk = Image.open('home/pi/Videos/youtube/uk.gif')
-        ukrend = ImageTk.PhotoImage(uk)
-        img1 = tk.Label(self, image=ukrend)
-        img1.image = ukrend
-        img1.place(x=200, y=600)
-
-        germany = Image.open('home/pi/Videos/youtube/germany.gif')
-        germanrender = ImageTk.PhotoImage(germany)
-        img2 = tk.Label(self, image=germanrender)
-        img2.image = germanrender
-        img2.place(x=500, y=600)
-
-        france = Image.open('home/pi/Videos/youtube/France.gif')
-        frender = ImageTk.PhotoImage(france)
-        img3 = tk.Label(self, image=frender)
-        img3.image = frender
-        img3.place(x=800, y=600)
-'''
 class PageTwo(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
@@ -152,11 +133,12 @@ class PageTwo(tk.Frame):
                             command=lambda: controller.show_frame(PageOne))
         button2.pack()
 
-        rvk1 = Image.open( '/home/pi/Videos/youtube/uk.gif' )
-        rvkrender2 = ImageTk.PhotoImage( rvk1 )
-        img4 = tk.Label( self, image=rvkrender2 )
-        img4.image = rvkrender2
-        img4.place(x=400, y=10)
+        val = Image.open( '/home/pi/Videos/youtube/valkostir.jpg')
+        val = val.resize((1185,560), Image.ANTIALIAS)
+        valrender= ImageTk.PhotoImage( val )
+        imgval = tk.Label( self, image=valrender )
+        imgval.image = valrender
+        imgval.place(x=0, y=0)
 
 
 def gunnar(ggg):
@@ -171,29 +153,31 @@ def gunnar(ggg):
     elif ggg==3:
         app.show_frame(StartPage)
         global gg
-        gg=1
-
-    
+        gg=1  
     
 
 def my_callback(channel):  
     print "falling edge detected on 13"
     print(gg)   
     gunnar(gg)
+    print (cc)
 
 def my_callback2(channel):
     print "falling edge detected on 16"
     gunnar(gg)
+    print (cc)
 def my_callback3(channel):
     gunnar(gg)
     print"falling edge detected on 23"
-    
+    print (cc)
 
 def my_callback4(channel):  
     print "falling edge detected on 18"        
     gunnar(gg)
 
 
+def coin_callback(channel):  
+    print "coin"
 
 
 if __name__ == "__main__":
